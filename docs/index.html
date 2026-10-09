@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PolicyLens, open-source policy data quality checks</title>
+<meta name="description" content="PolicyLens reads insurance customer spreadsheets and flags what needs human verification: blank cells stay unknown, duplicates get caught, expiry dates are never read as renewal status.">
+<style>
+:root{--ink:#1a2233;--mut:#5a6478;--line:#e3e7ef;--brand:#2b5fd9;--bg:#f7f9fc}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+main{max-width:860px;margin:0 auto;padding:48px 20px 80px}
+.badge{display:inline-block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);border:1px solid var(--brand);border-radius:999px;padding:2px 12px;margin-bottom:18px}
+h1{font-size:40px;line-height:1.15;margin-bottom:14px}
+.lead{font-size:19px;color:var(--mut);max-width:640px;margin-bottom:26px}
+.btn{display:inline-block;background:var(--brand);color:#fff;text-decoration:none;font-weight:600;padding:12px 22px;border-radius:10px}
+.btn.ghost{background:#fff;color:var(--brand);border:1px solid var(--brand);margin-left:10px}
+h2{font-size:22px;margin:44px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+.card h3{font-size:16px;margin-bottom:6px}
+.card p{font-size:14px;color:var(--mut)}
+ul{padding-left:22px;color:var(--mut)}
+li{margin-bottom:6px}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px}
+pre{background:#0f1729;color:#dbe4ff;border-radius:12px;padding:16px;overflow-x:auto;margin:12px 0}
+footer{border-top:1px solid var(--line);margin-top:56px;padding-top:18px;font-size:13px;color:var(--mut)}
+a{color:var(--brand)}
+</style>
+</head>
+<body>
+<main>
+<span class="badge">Open source · MIT</span>
+<h1>PolicyLens</h1>
+<p class="lead">Policy data quality checks for insurance spreadsheets. It reads a customer sheet and reports what a human must verify. Blank cells stay unknown, never guessed. Expiry dates are never read as renewal status.</p>
+<p><a class="btn" href="https://github.com/souravsroy9-gif/policylens">View on GitHub</a><a class="btn ghost" href="https://github.com/souravsroy9-gif/policylens#readme">Read the docs</a></p>
+
+<h2>What it checks</h2>
+<div class="grid">
+<div class="card"><h3>Blank cells</h3><p>Reported as unknown, row by row and column by column. The tool never fills a missing value by guessing, borrowing another customer's value, or inventing a plausible one.</p></div>
+<div class="card"><h3>Duplicate customers</h3><p>Matches on name and phone so the same customer does not get called twice or quoted two different renewals.</p></div>
+<div class="card"><h3>Expiry dates</h3><p>Listed with an explicit warning that they are historical. Renewal status is verified with the customer or a verified policy source, never inferred from the sheet.</p></div>
+</div>
+
+<h2>Optional AI helper</h2>
+<p class="lead">For every flagged customer, PolicyLens drafts short verification questions for the renewal call. Without an API key it is fully rule-based and works offline. Set an Anthropic API key and the Claude API phrases the questions for you. The tool never states a customer's current insurer or premium as fact; those always come from the customer.</p>
+
+<h2>Run it</h2>
+<pre>pip install -e .
+python -m policylens.checks your_sheet.xlsx</pre>
+
+<h2>Roadmap</h2>
+<ul>
+<li>v0.2: export the flagged report back to Excel</li>
+<li>v0.3: per-customer call script export</li>
+<li>v0.4: diff two monthly sheets to spot moved or merged rows</li>
+</ul>
+
+<footer>PolicyLens by Sourav S Roy · MIT License · <a href="https://github.com/souravsroy9-gif/policylens">github.com/souravsroy9-gif/policylens</a></footer>
+</main>
+</body>
+</html>
